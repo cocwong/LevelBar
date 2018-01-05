@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 
 /**
  * Author cocwong
@@ -130,17 +130,18 @@ public class LevelBar extends View {
         if (currentLevel == level) return;
         int levelSubtract = Math.abs(level - currentLevel);
         currentLevel = level;
-        ObjectAnimator animator = ObjectAnimator.ofInt(this, "progress", progress, 100 / levels.length * level);
-        animator.setDuration(200 * levelSubtract);
-        animator.setInterpolator(new DecelerateInterpolator());
+        ObjectAnimator animator = ObjectAnimator.ofInt(this, "progress", progress, 100 * level / levels.length);
+        animator.setDuration(300 * levelSubtract);
+        animator.setInterpolator(new LinearInterpolator());
+        animator.setAutoCancel(true);
         animator.start();
     }
 
-    public int getProgress() {
+    private int getProgress() {
         return progress;
     }
 
-    public void setProgress(int progress) {
+    private void setProgress(int progress) {
         this.progress = progress;
         invalidate();
     }
